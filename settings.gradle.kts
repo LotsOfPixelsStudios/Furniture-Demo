@@ -1,1 +1,1 @@
-rootProject.name = "Tranclate Addon Template" //todo change to project name
+rootProject.name = "TranClate Furniture Demo" //todo change to project name
