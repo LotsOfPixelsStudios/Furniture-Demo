@@ -8,11 +8,12 @@ import com.tcreative.devtools.tranclate.systemaddon.Addon
 /**
  *
  */
-class Fridge(val addon: Addon) {
+class Fridge(addon: Addon) {
     init {
         furniture("fridge", "Fridge", addon) {
-            resource {
-                //loadBlockbenchFile(getResource("furniture-resources/fridge1.bbmodel"))
+            loadBlockbenchFile(getResource("furniture-resources/fridge1.bbmodel"))
+            behaviour {
+                //TODO interaction to open and close
             }
         }
     }
