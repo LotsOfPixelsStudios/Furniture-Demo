@@ -21,16 +21,13 @@ fun main(args: Array<String>) {
            .buildVariant("white")
            .buildVariant("grey")
            .buildVariant("black")
+           .buildVariant("orange")
+           .buildVariant("cyan")
+           .buildVariant("green")
        Chandelier(this)
        Fridge(this)
        Table(this)
        TableLamp(this)
-       entity {
-           name("test", "Test")
-           resource {
-               loadBlockbenchFile(getResource("furniture-resources/fridge1.bbmodel"))
-           }
-       }
     }
 
     if (args.contains("zip-world"))

@@ -48,7 +48,7 @@ application {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("com.timoliacreative:tranclate:2.11.0")
-    implementation("com.timoliacreative:tranclate-std-lib:0.10.0")
+    implementation("com.timoliacreative:tranclate-std-lib:0.10.1-dev3")
 
     //test
     testImplementation(kotlin("test"))
