@@ -1,8 +1,6 @@
-# TranClate-Template
+# TranClate-Std-Lib Example - Furniture Lib
 
-![build](https://github.com/TimoliaCreative/TranClate-Template/actions/workflows/gradle_build.yml/badge.svg)
-
-An exampel of the furniture lib that is part of the std-lib.
+An exampel of the furniture lib that is part of the TranClate std-lib.
 
 Examples:
 - [Chair](https://github.com/TimoliaCreative/Furniture-Demo/blob/main/src/main/kotlin/com/tcreative/addons/furniture/Chair.kt) 
