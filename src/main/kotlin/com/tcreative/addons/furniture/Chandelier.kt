@@ -17,9 +17,13 @@ class Chandelier(addon: Addon) {
              */
             loadBlockbenchFile(getResource("furniture-resources/modern_chandelier/modern_chandelier1.bbmodel"))
 
+            // remove hitbox to avoid the entity shaddow on the ground
+            height = 0f // hitbox height
+            width = 0f  // hitbox width
 
             hangingLamp = true  // disables gravity for the lamp, so it doesn't fall down from the place where it should hang
             initialLightState = LightState.ON
+            autoRotationAdjustment = true // aligns the entity with the closest axis after spawned
 
             /**
              * defines the appearance of the spawn egg.
@@ -32,7 +36,10 @@ class Chandelier(addon: Addon) {
                 eggByFile(getResource("furniture-resources/modern_chandelier/moderin_chandelier_1.icon.png"))
             }
 
-            lightSource { // defines the position (relative to the entity) and brightness of the light block that gets set to emit light
+            /**
+             * Defines the relative position and brightness of the light block that gets set to emit light
+             */
+            lightSource {
                 x = 0f
                 y = 0f
                 z = 0f
