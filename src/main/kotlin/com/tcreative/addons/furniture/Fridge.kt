@@ -1,10 +1,8 @@
 package com.tcreative.addons.furniture
 
-import com.tcreative.devtools.stdlib.blockbench.loadBlockbenchFile
 import com.tcreative.devtools.stdlib.furnitures.furniture
 import com.tcreative.devtools.tranclate.addon.beh.entites.data.Subject
 import com.tcreative.devtools.tranclate.addon.molang.Query
-import com.tcreative.devtools.tranclate.addon.molang.and
 import com.tcreative.devtools.tranclate.builder.getResource
 import com.tcreative.devtools.tranclate.systemaddon.Addon
 
@@ -15,17 +13,40 @@ class Fridge(addon: Addon) {
     init {
         furniture("fridge", "Fridge", addon) {
 
-            loadBlockbenchFile(getResource("furniture-resources/fridge1.bbmodel")) // this function loads every
-                                                                                        // resource from a blockbench file
-                                                                                        // to your addon and adds it to this entiy.
-                                                                                        // including: geometry, textures, animations
-            // hitbox height and width
-            height = 2f
-            width = 1f
+            /**
+             * This function loads every resource from a blockbench file to your addon and adds it to this entiy.
+             * including: geometry, textures, animations
+             *
+             * The names of the textures and geometry will include a hash of the file path,
+             * so don't worry about file name collisions
+             */
+            loadBlockbenchFile(getResource("furniture-resources/fridge/fridge1.bbmodel"))
 
-            // you can expand the resource and behavior,
-            // however, there is a certain threshold, where it might make more sense to create a new entity from scratch
+            height = 2f // hitbox height
+            width = 1f  // hitbox width
+
+            autoRotationAdjustment = true // aligns the entity with the closest axis after spawned
+
+            /**
+             * defines the appearance of the spawn egg.
+             * In this case the spawn egg is a custom texture. The texture will be automatically added to addon.
+             *
+             * The names of the textures and geometry will include a hash of the file path,
+             * so don't worry about file name collisions
+             */
+            icon {
+                eggByFile(getResource("furniture-resources/fridge/fridge1.icon.png"))
+            }
+
+            /**
+             * you can expand the resource and behavior, however, there is a certain threshold where it might
+             * be reasonable to create a new entity from scratch
+             */
             resource {
+
+                /**
+                 * Animation controller to play the animation visibly
+                 */
                 animationController("open_close") {
                     initialState = "closing"
                     animStates {
@@ -47,46 +68,67 @@ class Fridge(addon: Addon) {
                 }
             }
             behaviour {
+                /**
+                 * Animation controller to implement the logic behind the open and closing behavior
+                 */
                 animController("open_close") {
                     initialState = "closed"
                     animStates {
                         animState("closed") {
-                            onEntry = arrayListOf(
+                            onEntry = arrayListOf( // firing two events on entry to the state
                                 "@s reset_interaction",
-                                "@s door_closed"
+                                "@s door_closed" // sets the property "door_open" to false
                             )
 
-                            transitions { transition("open") { Query.property("interaction") } }
+                            transitions { transition("open") { Query.property("interaction") } } // leave the state, when property "interaction" is true
                         }
 
                         animState("open") {
-                            onEntry = arrayListOf(
+                            onEntry = arrayListOf( // firing two events on entry to the state
                                 "@s reset_interaction",
-                                "@s door_open"
+                                "@s door_open" // sets the property "door_open" to true
                             )
-                            transitions { transition("closed") { Query.property("interaction") } }
+                            transitions { transition("closed") { Query.property("interaction") } } // leave the state, when property "interaction" is true
                         }
                     }
                 }
+
+                /**
+                 * introducing two properties
+                 */
                 properties {
-                    bool("interaction") {
+
+                    // property to catch interactions
+                    bool("interaction") { // actual name is "tranclate:interaction" but tranclate will handle that in the background
                         default(false)
                     }
+
+                    // property to save the state.
+                    // synch it with client side, so the resource animations can be played according to the state
                     bool("door_open") {
                         default(false)
                         clientSync = true
                     }
                 }
+
+                /**
+                 * setting the components
+                 */
                 components {
+
                     interact {
                         interactGroup {
                             cooldown = 1f
                             onInteract {
-                                event("interaction", Subject.SELF)
+                                event("interaction", Subject.SELF) // fire the "interact" event on interact
                             }
                         }
                     }
                 }
+
+                /**
+                 * introducing all events needed
+                 */
                 events {
                     event("interaction") {
                         setProperty("interaction", true)
